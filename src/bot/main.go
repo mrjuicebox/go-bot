@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"time"
+	"strings"
 
 	slackbot "github.com/BeepBoopHQ/go-slackbot"
 	"github.com/nlopes/slack"
