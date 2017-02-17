@@ -30,6 +30,8 @@ func main() {
 	toMe := bot.Messages(slackbot.DirectMessage, slackbot.DirectMention).Subrouter()
 
 	hi := "hi|hello|bot hi|bot hello"
+	xkcd := "xkcd"
+	bot.Hear(xkcd).MessageHandler(XkcdHandler)
 	toMe.Hear(hi).MessageHandler(HelloHandler)
 	bot.Hear(hi).MessageHandler(HelloHandler)
 	bot.Hear("help|bot help").MessageHandler(HelpHandler)
@@ -37,6 +39,11 @@ func main() {
 	bot.Hear(`<@([a-zA-z0-9]+)?>`).MessageHandler(MentionHandler)
 	bot.Hear("(bot ).*").MessageHandler(CatchAllHandler)
 	bot.Run()
+}
+
+func XkcdHandler(ctx context.Context, bot *slackbot.Bot, evt *slack.MessageEvent) {
+	msg := strings.Replace(Xkcd(), "\\", "", -1)
+	bot.Reply(evt, msg, WithTyping)
 }
 
 func HelloHandler(ctx context.Context, bot *slackbot.Bot, evt *slack.MessageEvent) {
